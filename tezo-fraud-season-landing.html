@@ -547,7 +547,7 @@ function submitModal(){
   ok = fieldErr('mCompany','meCompany', company.length >= 2 ? "" : "Company helps us tailor the readout offer.") && ok;
 if(!ok) return;
 
-  const fields=[["firstname",name],["email",email],["company",company],
+  const fields=[["firstname",name],["email",email],["name",company],
     ["utm_source",UTM.source],["utm_medium",UTM.medium],["utm_campaign",UTM.campaign]]
     .filter(f=>f[1]).map(f=>({name:f[0],value:f[1]}));
 
