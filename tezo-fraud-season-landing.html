@@ -547,9 +547,14 @@ function submitModal(){
   ok = fieldErr('mCompany','meCompany', company.length >= 2 ? "" : "Company helps us tailor the readout offer.") && ok;
 if(!ok) return;
 
-  const fields=[["firstname",name],["email",email],["name",company],
-    ["utm_source",UTM.source],["utm_medium",UTM.medium],["utm_campaign",UTM.campaign]]
-    .filter(f=>f[1]).map(f=>({name:f[0],value:f[1]}));
+  const fields=[
+    {name:"firstname", value:name},
+    {name:"email", value:email},
+    {name:"name", value:company, objectTypeId:"0-2"},
+    {name:"utm_source", value:UTM.source},
+    {name:"utm_medium", value:UTM.medium},
+    {name:"utm_campaign", value:UTM.campaign}
+  ].filter(f=>f.value);
 
   try{
     fetch("https://api.hsforms.com/submissions/v3/integration/submit/"+HUBSPOT.portalId+"/"+HUBSPOT.formGuid, {
@@ -563,10 +568,7 @@ if(!ok) return;
           pageName: document.title
         }
       })
-    }).then(async r => {
-      const body = await r.text();
-      console.log("HubSpot benchmark form response:", r.status, body);
-    }).catch(err => console.log("HubSpot benchmark form fetch failed:", err));
+    }).catch(()=>{});
   }catch(e){}
   closeModal();
   toast("On its way — check your inbox in a few minutes");
