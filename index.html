@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tezo | Fraud Season Readiness</title>
+<style>
+  :root {
+    --bg: #0b0b12;
+    --panel: #121220;
+    --line: #232336;
+    --primary: #e54a59;
+    --secondary: #4e3aad;
+    --accent: #b0a8fe;
+    --text: #f2f1f8;
+    --text-dim: #8b89a3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 48px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    height: 32px;
+  }
+
+  .case-tag {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .case-tag span { color: var(--primary); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 88px 48px 64px;
+    max-width: 760px;
+  }
+
+  .eyebrow {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 0 4px rgba(229,74,89,0.15);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(229,74,89,0.15); }
+    50% { box-shadow: 0 0 0 8px rgba(229,74,89,0.05); }
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--primary);
+  }
+
+  .hero p {
+    margin-top: 20px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-width: 560px;
+  }
+
+  /* ---------- Path selector (signature element) ---------- */
+  .paths {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--line);
+  }
+
+  .path {
+    position: relative;
+    padding: 56px 48px 72px;
+    text-decoration: none;
+    color: var(--text);
+    border-right: 1px solid var(--line);
+    overflow: hidden;
+    transition: background 0.35s ease;
+  }
+
+  .path:last-child { border-right: none; }
+
+  .path::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 0%, rgba(229,74,89,0.08), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .path.secondary::before {
+    background: radial-gradient(circle at 20% 0%, rgba(78,58,173,0.18), transparent 55%);
+  }
+
+  .path:hover::before { opacity: 1; }
+  .path:hover { background: var(--panel); }
+
+  .path:hover .path-number { color: var(--primary); }
+  .path.secondary:hover .path-number { color: var(--accent); }
+
+  .path-number {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+  }
+
+  .path h2 {
+    margin-top: 22px;
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    max-width: 320px;
+  }
+
+  .path p {
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-width: 340px;
+  }
+
+  .path-cta {
+    margin-top: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 6px;
+    color: #fff;
+  }
+
+  .path.primary .path-cta { background: var(--primary); }
+  .path.secondary .path-cta { background: var(--secondary); color: var(--accent); }
+
+  .path-cta svg {
+    width: 14px; height: 14px;
+    transition: transform 0.25s ease;
+  }
+  .path:hover .path-cta svg { transform: translateX(4px); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 24px 48px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    header, .hero, footer { padding-left: 24px; padding-right: 24px; }
+    .paths { grid-template-columns: 1fr; }
+    .path { border-right: none; border-bottom: 1px solid var(--line); }
+  }
+
+  a:focus-visible, .path:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow::before { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logow.png" alt="Tezo" class="logo">
+  <div class="case-tag">Case File <span>// FS-2026</span></div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Fraud season is coming</div>
+  <h1>Is your fraud model <em>ready</em><br>for peak season?</h1>
+  <p>Transaction volume spikes. So does fraud. Choose a path below — score your current model's readiness, or see how Tezo prepares manufacturing and enterprise teams before the surge hits.</p>
+</section>
+
+<div class="paths">
+  <a href="tezo-fraud-model-readiness-assessment.html" class="path primary">
+    <div class="path-number">01 / ASSESSMENT</div>
+    <h2>Check your model readiness</h2>
+    <p>A short self-assessment that scores how prepared your current fraud detection setup is — and where the gaps are.</p>
+    <span class="path-cta">
+      Take the assessment
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </span>
+  </a>
+
+  <a href="tezo-fraud-season-landing.html" class="path secondary">
+    <div class="path-number">02 / OVERVIEW</div>
+    <h2>See how Tezo handles fraud season</h2>
+    <p>Explore how Tezo helps enterprise and manufacturing teams get ahead of seasonal fraud spikes before they cost you.</p>
+    <span class="path-cta">
+      Explore the solution
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </span>
+  </a>
+</div>
+
+<footer>
+  <span>Tezo — A Technovert Company</span>
+  <span>Microsoft Cloud · Data & AI</span>
+</footer>
+
+</body>
+</html>

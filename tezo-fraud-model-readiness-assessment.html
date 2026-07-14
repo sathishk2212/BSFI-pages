@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraud-Model Peak-Readiness Self-Assessment | Tezo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --red:#e54a59; --white:#ffffff; --black:#1e1e1e;
+  --lilac:#b0a8fe; --blue:#4e3aad; --beige:#e8dccc;
+  --ink-soft:#cfcbe6; --line:rgba(255,255,255,.14);
+  --bg:#141318; --surface:#1b1a22; --card:rgba(255,255,255,.05); --card-b:rgba(255,255,255,.13);
+  --t1:#b9b3d9; --t2:#b0a8fe; --t3:#4e3aad; --t4:#e54a59;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:'Inter',sans-serif; color:#fff; background:
+  radial-gradient(70% 40% at 8% 0%, rgba(176,168,254,.14), rgba(176,168,254,0) 55%),
+  radial-gradient(60% 35% at 100% 0%, rgba(229,74,89,.10), rgba(229,74,89,0) 60%),
+  var(--bg); min-height:100vh; }
+h1,h2,h3,h4,.eyebrow,.logo,button,.tag,.tier-name,.score-num{ font-family:'Inter',sans-serif; }
+.wrap{ max-width:820px; margin:0 auto; padding:28px 20px 60px; }
+.topbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; }
+.logo{ font-weight:800; font-size:22px; letter-spacing:-.02em; }
+.logo .sl{ color:var(--red); }
+.runhead{ font-size:10px; letter-spacing:.22em; color:#9a96b0; text-transform:uppercase; font-weight:600; }
+.eyebrow{ font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--red); font-weight:700; margin-bottom:8px; }
+.card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:34px 38px; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+h1{ font-weight:800; font-size:30px; letter-spacing:-.03em; line-height:1.15; margin-bottom:12px; color:#fff; }
+h1 .hl{ color:var(--red); }
+.lead{ font-size:15px; line-height:1.7; color:var(--ink-soft); margin-bottom:10px; }
+.lead b{ color:#fff; }
+.meta{ display:flex; gap:22px; margin:22px 0 26px; flex-wrap:wrap; }
+.meta .m{ font-size:12.5px; color:var(--ink-soft); }
+.meta .m b{ font-family:'Inter'; color:var(--lilac); font-size:15px; display:block; }
+button{ cursor:pointer; border:none; border-radius:8px; font-weight:700; transition:transform .12s ease, box-shadow .12s ease; }
+button:hover{ transform:translateY(-1px); }
+.btn-primary{ background:var(--red); color:#fff; font-size:15px; padding:14px 30px; box-shadow:0 4px 16px rgba(229,74,89,.30); }
+.btn-ghost{ background:transparent; color:#fff; font-size:13px; padding:12px 18px; border:1.5px solid rgba(255,255,255,.35); }
+.btn-blue{ background:var(--blue); color:#fff; font-size:14px; padding:12px 24px; box-shadow:0 4px 16px rgba(78,58,173,.28); }
+/* progress */
+.progress{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+.pbar{ flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden; }
+.pfill{ height:100%; background:linear-gradient(90deg,var(--blue),var(--red)); border-radius:3px; transition:width .3s ease; }
+.pcount{ font-family:'Inter'; font-size:12px; font-weight:700; color:var(--lilac); white-space:nowrap; }
+/* question */
+.dimtag{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--red); font-weight:700; margin-bottom:6px; }
+.qtitle{ font-weight:700; font-size:21px; letter-spacing:-.02em; line-height:1.3; margin-bottom:6px; font-family:'Inter'; color:#fff; }
+.qsub{ font-size:13.5px; color:#9a96b0; margin-bottom:20px; }
+.opts{ display:flex; flex-direction:column; gap:10px; }
+.opt{ text-align:left; background:var(--card); border:1.5px solid var(--card-b); border-radius:10px; padding:14px 16px; font-family:'Inter'; font-size:14px; line-height:1.55; color:var(--ink-soft); display:flex; gap:14px; align-items:flex-start; }
+.opt:hover{ border-color:var(--lilac); box-shadow:0 3px 14px rgba(176,168,254,.12); }
+.opt.selected{ border-color:var(--blue); background:rgba(176,168,254,.12); }
+.opt .lv{ flex:none; font-family:'Inter'; font-weight:800; font-size:12px; color:#fff; background:var(--lilac); border-radius:6px; padding:4px 8px; margin-top:1px; }
+.opt[data-l="1"] .lv{ background:var(--t1); } .opt[data-l="2"] .lv{ background:var(--t2); }
+.opt[data-l="3"] .lv{ background:var(--t3); } .opt[data-l="4"] .lv{ background:var(--t4); }
+.navrow{ display:flex; justify-content:space-between; margin-top:24px; }
+/* results */
+#resultCard{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:0; overflow:hidden; }
+.r-hero{ color:#fff; padding:30px 38px 26px; background:
+  radial-gradient(90% 90% at 88% -10%, rgba(78,58,173,.55), rgba(78,58,173,0) 60%),
+  radial-gradient(70% 60% at 0% 115%, rgba(229,74,89,.35), rgba(229,74,89,0) 55%), var(--black); }
+.r-hero .rh-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.r-hero .logo{ color:#fff; font-size:18px; }
+.r-hero .rdate{ font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#8b86ad; font-weight:600; font-family:'Inter'; }
+.r-flex{ display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
+.score-ring{ width:110px; height:110px; border-radius:50%; flex:none; display:flex; flex-direction:column; align-items:center; justify-content:center; background:
+  conic-gradient(var(--ringcolor,#e54a59) calc(var(--pct,50)*1%), rgba(255,255,255,.14) 0); position:relative; }
+.score-ring::before{ content:""; position:absolute; inset:9px; border-radius:50%; background:var(--black); }
+.score-num{ position:relative; font-size:30px; font-weight:800; line-height:1; color:#fff; }
+.score-den{ position:relative; font-size:11px; color:#8b86ad; font-family:'Inter'; }
+.tier-name{ font-size:26px; font-weight:800; letter-spacing:-.02em; margin-bottom:4px; }
+.tier-line{ font-size:14px; color:#cfcbe6; line-height:1.55; max-width:440px; }
+.tier-line b{ color:#fff; }
+.r-body{ padding:26px 38px 30px; background:var(--surface); }
+.r-secttitle{ font-family:'Inter'; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--red); font-weight:700; margin-bottom:12px; }
+.dimrow{ display:flex; align-items:center; gap:12px; margin-bottom:9px; }
+.dimlabel{ width:210px; flex:none; font-size:12.5px; color:#fff; font-weight:700; font-family:'Inter'; }
+.dimtrack{ flex:1; height:14px; background:rgba(255,255,255,.08); border-radius:7px; position:relative; }
+.dimfill{ height:100%; border-radius:7px; background:linear-gradient(90deg,var(--lilac),var(--blue)); }
+.dimfill.low{ background:linear-gradient(90deg,#f0b3ba,var(--red)); }
+.dimtypical{ position:absolute; top:-3px; width:2.5px; height:20px; background:#0d0d10; border-radius:2px; box-shadow:0 0 0 1px rgba(255,255,255,.55); }
+.dimscore{ width:34px; flex:none; text-align:right; font-family:'Inter'; font-weight:800; font-size:13px; color:var(--lilac); }
+.legendline{ font-size:11px; color:#9a96b0; margin:6px 0 20px; }
+.moves{ display:flex; gap:14px; margin-bottom:20px; flex-wrap:wrap; }
+.move{ flex:1; min-width:240px; border:1px solid var(--card-b); border-left:4px solid var(--red); border-radius:8px; padding:13px 15px; background:rgba(229,74,89,.07); }
+.move h4{ font-size:13.5px; font-weight:700; margin-bottom:4px; color:#fff; }
+.move p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; }
+.evnote{ border:1px dashed var(--lilac); background:rgba(78,58,173,.14); border-radius:8px; padding:12px 15px; font-size:12.5px; color:var(--ink-soft); line-height:1.55; margin-bottom:20px; }
+.evnote b{ color:var(--lilac); }
+.runway{ display:flex; align-items:center; gap:14px; background:var(--black); border-radius:8px; padding:14px 18px; color:#fff; margin-bottom:4px; }
+.runway .days{ font-family:'Inter'; font-size:26px; font-weight:800; color:var(--red); flex:none; line-height:1; }
+.runway p{ font-size:12.5px; color:#cfcbe6; line-height:1.5; }
+.runway p b{ color:#fff; }
+.r-foot{ border-top:1px solid var(--line); padding:14px 38px; display:flex; justify-content:space-between; align-items:center; font-size:10.5px; color:#9a96b0; font-family:'Inter'; letter-spacing:.06em; }
+/* below-card actions */
+.actions{ margin-top:22px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.sharenote{ margin-top:14px; font-size:13px; color:var(--ink-soft); line-height:1.6; }
+.sharenote b{ color:#fff; }
+.toast{ position:fixed; bottom:26px; left:50%; transform:translateX(-50%); background:var(--black); color:#fff; font-family:'Inter'; font-size:13px; padding:11px 22px; border-radius:8px; opacity:0; pointer-events:none; transition:opacity .3s; z-index:50; }
+.toast.show{ opacity:1; }
+.hidden{ display:none; }
+/* gate */
+.compile{ margin:8px 0 22px; }
+.cline{ display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-soft); margin-bottom:8px; opacity:0; transform:translateY(4px); transition:all .4s ease; }
+.cline.on{ opacity:1; transform:none; }
+.cline .chk{ font-family:'Inter'; font-weight:800; color:var(--lilac); }
+.gform{ display:none; }
+.gform.on{ display:block; animation:fadeup .5s ease; }
+@keyframes fadeup{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
+.frow{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+.fld{ flex:1; min-width:200px; }
+.fld label{ display:block; font-family:'Inter'; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:5px; }
+.fld label .req{ color:var(--red); }
+.fld input{ width:100%; border:1.5px solid var(--line); border-radius:8px; padding:12px 14px; font-family:'Inter'; font-size:14px; color:#fff; background:#232129; outline:none; }
+.fld input::placeholder{ color:rgba(255,255,255,.35); }
+.fld input:focus{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(78,58,173,.18); }
+.fld input.err{ border-color:var(--red); box-shadow:0 0 0 3px rgba(229,74,89,.14); }
+.ferr{ font-size:11.5px; color:var(--red); margin-top:4px; min-height:14px; }
+.optlabel{ font-family:'Inter'; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin:6px 0 7px; }
+.optlabel .light{ color:#9a96b0; font-weight:600; text-transform:none; letter-spacing:0; }
+.chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.chip{ background:rgba(255,255,255,.06); border:1.5px solid var(--line); border-radius:20px; padding:8px 16px; font-family:'Inter'; font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+.chip:hover{ border-color:var(--lilac); }
+.chip.on{ background:var(--blue); border-color:var(--blue); color:#fff; }
+.gtrust{ font-size:12px; color:#9a96b0; line-height:1.55; margin:14px 0 18px; }
+.gtrust b{ color:var(--ink-soft); }
+.roleread{ border-left:4px solid var(--blue); background:rgba(78,58,173,.16); border-radius:0 8px 8px 0; padding:13px 16px; margin-bottom:20px; }
+.roleread h4{ font-family:'Inter'; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--lilac); font-weight:700; margin-bottom:4px; }
+.roleread p{ font-size:13px; color:var(--ink-soft); line-height:1.6; }
+.rfor{ font-size:12px; color:#cfcbe6; font-family:'Inter'; font-weight:600; margin-top:10px; }
+.rfor b{ color:#fff; }
+@media (max-width:640px){ .card{ padding:24px 20px; } .r-hero,.r-body{ padding-left:20px; padding-right:20px; } .dimlabel{ width:130px; font-size:11px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo"><img src="logow.png" alt="Logo" style="height:26px; width:auto; display:block;"></div>
+    <div class="runhead">Fraud-Model Peak-Readiness &middot; Self-Assessment</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="card" id="intro">
+    <div class="eyebrow">Six questions &middot; Five minutes &middot; No data leaves your browser</div>
+    <h1>Will your fraud models hold in <span class="hl">December?</span></h1>
+    <p class="lead">This is the benchmark from Tezo&rsquo;s <b>2026 Fraud-Model Peak-Readiness Benchmark</b>, as a working instrument: six dimensions, four maturity levels each. Answer by the <b>evidence you could produce this week</b> &mdash; not by roadmap. Nobody is watching; the only person you can mislead is the one who owns the December number.</p>
+    <div class="meta">
+      <div class="m"><b id="daysMeta">&mdash;</b>days until change windows close (mid-Oct)</div>
+      <div class="m"><b>6 &times; 4</b>dimensions &times; maturity levels</div>
+      <div class="m"><b>6&ndash;24</b>your score, mapped to four tiers</div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Start the assessment &rarr;</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card hidden" id="quiz">
+    <div class="progress">
+      <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+      <div class="pcount" id="pcount">1 / 6</div>
+    </div>
+    <div class="dimtag" id="qDim"></div>
+    <div class="qtitle" id="qTitle"></div>
+    <div class="qsub" id="qSub"></div>
+    <div class="opts" id="qOpts"></div>
+    <div class="navrow">
+      <button class="btn-ghost" id="backBtn" onclick="goBack()">&larr; Back</button>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- GATE -->
+  <div class="card hidden" id="gate">
+    <div class="eyebrow">Assessment complete</div>
+    <h1 style="font-size:24px;">Your scorecard is <span class="hl">compiled.</span></h1>
+    <div class="compile" id="compileLines">
+      <div class="cline"><span class="chk">&#10003;</span> Six dimensions scored</div>
+      <div class="cline"><span class="chk">&#10003;</span> Benchmarked against the typical mid-size field profile</div>
+      <div class="cline"><span class="chk">&#10003;</span> Two priority moves selected for your weakest dimensions</div>
+    </div>
+    <div class="gform" id="gform">
+      <p class="lead" style="font-size:14px; margin-bottom:16px;">One step left: tell us <b>who this scorecard is for</b> &mdash; it goes on the card itself, and your copy of the full 12-page Peak-Readiness Benchmark report goes to your work inbox.</p>
+      <div class="frow">
+        <div class="fld">
+          <label>Name <span class="req">*</span></label>
+          <input type="text" id="fName" placeholder="Jordan Reyes" autocomplete="name">
+          <div class="ferr" id="eName"></div>
+        </div>
+        <div class="fld">
+          <label>Company <span class="req">*</span></label>
+          <input type="text" id="fCompany" placeholder="Meridian Federal Bank" autocomplete="organization">
+          <div class="ferr" id="eCompany"></div>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fld">
+          <label>Work email <span class="req">*</span></label>
+          <input type="email" id="fEmail" placeholder="jordan.reyes@meridianfed.com" autocomplete="email">
+          <div class="ferr" id="eEmail"></div>
+        </div>
+      </div>
+      <div class="optlabel">Your seat <span class="light">&mdash; optional, sharpens the read on your results</span></div>
+      <div class="chips" id="roleChips">
+        <button class="chip" data-role="fraud">Fraud / Risk</button>
+        <button class="chip" data-role="ds">Data Science / ML</button>
+        <button class="chip" data-role="tech">Technology / Engineering</button>
+        <button class="chip" data-role="exec">Executive Leadership</button>
+      </div>
+      <div class="gtrust"><b>What happens with this:</b> one email with the full report, and one optional invitation to a 30-minute readout with the team that wrote it. No sequences, no cold calls. Your six answers stay in this browser &mdash; only what you type here is sent.</div>
+      <button class="btn-primary" onclick="submitGate()">Reveal my scorecard &rarr;</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="hidden" id="results">
+    <div id="resultCard">
+      <div class="r-hero" id="rHero">
+        <div class="rh-top">
+          <div class="logo"><img src="logow.png" alt="Logo" style="height:20px; width:auto; display:block;"></div>
+          <div class="rdate" id="rDate"></div>
+        </div>
+        <div class="r-flex">
+          <div class="score-ring" id="scoreRing">
+            <div class="score-num" id="rScore">0</div>
+            <div class="score-den">of 24</div>
+          </div>
+          <div>
+            <div class="tier-name" id="rTier"></div>
+            <div class="tier-line" id="rTierLine"></div>
+            <div class="rfor" id="rFor"></div>
+          </div>
+        </div>
+      </div>
+      <div class="r-body">
+        <div class="r-secttitle">Your profile &middot; vs. typical mid-size institution</div>
+        <div id="rDims"></div>
+        <div class="legendline">Black marker = the modal profile Tezo finds in field engagements at mid-size US financial institutions.</div>
+
+        <div class="r-secttitle">Your two moves before the freeze</div>
+        <div class="moves" id="rMoves"></div>
+
+        <div class="roleread hidden" id="rRoleRead">
+          <h4 id="rRoleTitle"></h4>
+          <p id="rRoleText"></p>
+        </div>
+
+        <div class="evnote" id="rEvnote"><b>The evidence rule:</b> if any rating reflects a roadmap rather than results you could rerun this week, read your score one tier lower. Examiners will.</div>
+
+        <div class="runway">
+          <div class="days" id="rDays">&mdash;</div>
+          <p><b>days of runway remain</b> until change windows close for peak season. The full 90-day sequence &mdash; See, Stress, Rehearse, Hold &mdash; is mapped in the 2026 Peak-Readiness Benchmark report.</p>
+        </div>
+      </div>
+      <div class="r-foot">
+        <div>TEZO &middot; FRAUD-MODEL PEAK-READINESS SELF-ASSESSMENT</div>
+        <div>www.tezo.com</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-blue" onclick="copyResult()">&#10697; Copy results as image</button>
+      <button class="btn-primary" onclick="window.open('[BOOKING_URL]','_blank')">Book a 30-min readout</button>
+      <button class="btn-ghost" onclick="restart()">Retake</button>
+    </div>
+    <p class="sharenote"><b>Made to travel internally:</b> &ldquo;Copy results as image&rdquo; puts your scorecard on the clipboard &mdash; paste it straight into an email, deck, or chat for your risk and fraud teams. It carries your name, your profile, and the two moves: everything the next meeting needs, nothing it doesn&rsquo;t.</p>
+  </div>
+
+  <div class="toast" id="toast">Scorecard copied to clipboard</div>
+</div>
+
+<script>
+const DIMS = [
+  {
+    dim:"Dimension 1 · Drift vigilance",
+    label:"Drift vigilance",
+    q:"How do you find out your fraud model's inputs have shifted?",
+    sub:"Peak shifts basket sizes, velocities, devices, and geography — together, within days.",
+    opts:[
+      "When losses spike or analysts start complaining.",
+      "Stability metrics (PSI) reviewed monthly or quarterly, in reports.",
+      "Automated weekly drift monitoring with alert thresholds and named owners.",
+      "Peak-specific baselines, feature-range stress tests beyond trained bounds, and a rehearsed drift playbook."
+    ],
+    move:"Stand up weekly drift monitoring with peak-specific baselines from last season's data. Cheapest capability on this list — and it de-risks three others."
+  },
+  {
+    dim:"Dimension 2 · Adversarial coverage",
+    label:"Adversarial coverage",
+    q:"When did your fraud model last face a simulated attack?",
+    sub:"Fraud rings A/B-test your model all December. The question is who tests it first.",
+    opts:[
+      "It hasn't — we rely on back-testing against historical fraud.",
+      "Occasional red-team exercises — network-focused, model out of scope.",
+      "A standing adversarial suite: card-testing bursts, promo abuse, mule-activation patterns.",
+      "Suite refreshed each season from current intel and run against the production scoring path before peak."
+    ],
+    move:"Commission an adversarial scenario suite built from current-season intel — card-testing bursts, promo abuse, mule patterns — and run it against production, not a sandbox."
+  },
+  {
+    dim:"Dimension 3 · Operating-point control",
+    label:"Operating-point control",
+    q:"What happens to your thresholds under queue pressure?",
+    sub:"The most common untested model change of the year happens in December, at 6pm, under pressure.",
+    opts:[
+      "They get changed ad hoc when queues overflow; changes aren't always documented.",
+      "They're revisited at annual validation only.",
+      "Alert-rate and precision proxies are tracked against approved operating bands.",
+      "Pre-agreed recalibration triggers and a change protocol; every peak-season move is logged and tested."
+    ],
+    move:"Agree recalibration triggers and a threshold-change protocol now, in September calm — before queue pressure makes the decision for you in December."
+  },
+  {
+    dim:"Dimension 4 · Cohort assurance",
+    label:"Cohort assurance",
+    q:"Do you know how the model performs on brand-new, thin-file customers?",
+    sub:"Peak growth concentrates exactly where model confidence is weakest.",
+    opts:[
+      "We track global metrics only; cohorts aren't broken out.",
+      "Cohort cuts get examined in the annual validation sample.",
+      "Thin-file and new-customer cohorts are monitored as first-class segments.",
+      "Cohort-level calibration is tested against the projected peak population mix, before the mix arrives."
+    ],
+    move:"Make thin-file and new-customer cohorts first-class validation populations — test calibration against your projected peak mix, not last year's average customer."
+  },
+  {
+    dim:"Dimension 5 · Customer-impact management",
+    label:"Customer impact (FP tax)",
+    q:"Who sees the cost of false declines — and when?",
+    sub:"Same false-positive rate × peak volume = the CFO's problem, in the year's best revenue weeks.",
+    opts:[
+      "Through complaints and churn analysis, months later.",
+      "FP rate is reported; the revenue impact is owned by another function.",
+      "A decline-impact dashboard: FP counts, insult-rate proxies, revenue-at-risk.",
+      "FP economics are projected at peak volume and reviewed jointly by fraud and revenue owners, pre-season."
+    ],
+    move:"Build the decline-impact view — FP counts, insult-rate proxies, revenue-at-risk — and put it in the same meeting as fraud losses. Two sides, one ledger."
+  },
+  {
+    dim:"Dimension 6 · Serving-path resilience",
+    label:"Serving-path resilience",
+    q:"What does your scoring stack do when it's overwhelmed?",
+    sub:"Offline model quality is irrelevant if the stack around it stops delivering features under load.",
+    opts:[
+      "We find out during incidents.",
+      "Load testing covers the application — not the scoring path.",
+      "Scoring latency, feature freshness, and fallbacks are monitored in production.",
+      "The full scoring path is load-tested at peak multiples; fail-open/fail-closed behavior is verified and signed off."
+    ],
+    move:"Load-test the full scoring path at peak multiples — latency, feature freshness, and above all fallback behavior. Find it in a test log, not a loss report."
+  }
+];
+const TYPICAL = [2,1,2,1,2,2];
+const PRIORITY = [0,5,2,4,3,1]; // tie-break: drift, serving, thresholds, FP, cohort, adversarial
+const TIERS = [
+  { min:6,  max:11, name:"Exposed", color:"#b9b3d9", pct:28,
+    line:"Peak will run this test for you — and grade it in the loss report. The honest read: your assurance calendar was built for slower models and inherited by fast ones. <b>Buy visibility first;</b> sophistication can wait a quarter." },
+  { min:12, max:16, name:"Governed", color:"#b0a8fe", pct:55,
+    line:"The most common profile in the field: every control exists — annually, on paper. <b>That profile passes audits and fails Decembers.</b> Your largest return: convert one scheduled control to instrumented per quarter, starting below." },
+  { min:17, max:21, name:"Instrumented", color:"#7a6fe0", pct:80,
+    line:"A strong operation — continuous monitoring, real owners, live alerts. What remains are the <b>peak-specific gaps only pre-season stress testing closes.</b> Spend your runway there." },
+  { min:22, max:24, name:"Peak-Proofed", color:"#e54a59", pct:100,
+    line:"Rare air — defend it. Maturity decays: every model refresh, vendor upgrade, and threshold change resets part of the proof. <b>Your task is keeping the evidence current,</b> not earning it." }
+];
+
+const ROLE_READS = {
+  fraud:{ t:"Read for your seat · Fraud & Risk",
+    x:"Your loss number is written in November and December, but it is signed in July — by whichever of the two moves above you fund first. One suggestion from the field: bring the false-positive economics view into the same meeting as fraud losses. Two sides, one ledger, one owner." },
+  ds:{ t:"Read for your seat · Data Science & ML",
+    x:"Notice that nothing in this scorecard criticizes your models — none of the six failure modes is a modeling error. This is the instrumentation around your work. Use the score to fund the harness, not to defend the model; independent evidence is what lets your models keep their credibility after a hard season." },
+  tech:{ t:"Read for your seat · Technology & Engineering",
+    x:"Dimension 6 is yours outright: fallback behavior, feature freshness, and latency at peak multiples — and the October freeze applies to your systems first. If only one engineering task gets funded before the freeze, make it load-testing the full scoring path, not the app around it." },
+  exec:{ t:"Read for your seat · Executive Leadership",
+    x:"One question for your next risk committee: who owns 'is it still working?' — weekly, in production, with evidence someone could rerun. If the room goes quiet, that silence is what this score is measuring. The two moves above are how the answer becomes a name and a date." }
+};
+const FREE_MAIL = ["gmail.","yahoo.","hotmail.","outlook.","icloud.","aol.","proton","live.","msn.","gmx.","mail.com"];
+
+const HUBSPOT = {
+  portalId: "242046967",
+  formGuid: "4e8d82c4-56f3-4000-818d-2a2c04cf6630"
+};
+
+const UTM = (() => {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    source: params.get("utm_source") || "",
+    medium: params.get("utm_medium") || "",
+    campaign: params.get("utm_campaign") || ""
+  };
+})();
+
+const ROLE_CRM_VALUES = {
+  fraud: "Fraud/Risk",
+  ds: "Data Science/ML",
+  tech: "Technology/Engineering",
+  exec: "Executive Leadership"
+};
+let answers = new Array(6).fill(0);
+let current = 0;
+let lead = { name:"", email:"", company:"", role:"" };
+
+function daysToFreeze(){
+  const now = new Date();
+  let freeze = new Date(now.getFullYear(), 9, 15); // Oct 15
+  if (now > freeze) freeze = new Date(now.getFullYear()+1, 9, 15);
+  return Math.ceil((freeze - now) / 86400000);
+}
+
+function startQuiz(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQ();
+}
+
+function renderQ(){
+  const d = DIMS[current];
+  document.getElementById('qDim').textContent = d.dim;
+  document.getElementById('qTitle').textContent = d.q;
+  document.getElementById('qSub').textContent = d.sub;
+  document.getElementById('pfill').style.width = ((current)/6*100) + '%';
+  document.getElementById('pcount').textContent = (current+1) + ' / 6';
+  document.getElementById('backBtn').style.visibility = current === 0 ? 'hidden' : 'visible';
+  const box = document.getElementById('qOpts');
+  box.innerHTML = '';
+  d.opts.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[current] === i+1 ? ' selected' : '');
+    b.setAttribute('data-l', i+1);
+    b.innerHTML = '<span class="lv">L' + (i+1) + '</span><span>' + t + '</span>';
+    b.onclick = () => { answers[current] = i+1; setTimeout(next, 180); b.classList.add('selected'); };
+    box.appendChild(b);
+  });
+}
+
+function next(){
+  if (current < 5){ current++; renderQ(); }
+  else showGate();
+}
+function goBack(){ if (current > 0){ current--; renderQ(); } }
+function restart(){ answers = new Array(6).fill(0); current = 0;
+  document.getElementById('results').classList.add('hidden'); startQuiz(); }
+
+function showGate(){
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('gate').classList.remove('hidden');
+  const lines = document.querySelectorAll('#compileLines .cline');
+  lines.forEach((l,i)=> setTimeout(()=> l.classList.add('on'), 350 + i*420));
+  setTimeout(()=> document.getElementById('gform').classList.add('on'), 350 + lines.length*420 + 250);
+  document.querySelectorAll('#roleChips .chip').forEach(c=>{
+    c.onclick = ()=>{
+      const was = c.classList.contains('on');
+      document.querySelectorAll('#roleChips .chip').forEach(x=>x.classList.remove('on'));
+      if(!was){ c.classList.add('on'); lead.role = c.dataset.role; } else { lead.role = ""; }
+    };
+  });
+}
+
+function fieldErr(id, eid, msg){
+  document.getElementById(id).classList.toggle('err', !!msg);
+  document.getElementById(eid).textContent = msg || "";
+  return !msg;
+}
+function submitGate(){
+  const name = document.getElementById('fName').value.trim();
+  const company = document.getElementById('fCompany').value.trim();
+  const email = document.getElementById('fEmail').value.trim().toLowerCase();
+  let ok = true;
+  ok = fieldErr('fName','eName', name.length >= 2 ? "" : "We need a name to put on the scorecard.") && ok;
+  ok = fieldErr('fCompany','eCompany', company.length >= 2 ? "" : "The benchmark comparison is company-level.") && ok;
+  let emsg = "";
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) emsg = "That doesn't look like an email address.";
+  else if (FREE_MAIL.some(d => email.split('@')[1].startsWith(d))) emsg = "Use your work email — that's where the report goes.";
+  ok = fieldErr('fEmail','eEmail', emsg) && ok;
+  if(!ok) return;
+  lead.name = name; lead.company = company; lead.email = email;
+  sendLead();
+  document.getElementById('gate').classList.add('hidden');
+  showResults();
+}
+function sendLead(){
+  const fields=[["firstname",lead.name],["email",lead.email],["company",lead.company],
+    ["yourseat",ROLE_CRM_VALUES[lead.role]||""],
+    ["utm_source",UTM.source],["utm_medium",UTM.medium],["utm_campaign",UTM.campaign]]
+    .filter(f=>f[1]).map(f=>({name:f[0],value:f[1]}));
+
+  try{
+    fetch("https://api.hsforms.com/submissions/v3/integration/submit/"+HUBSPOT.portalId+"/"+HUBSPOT.formGuid, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        fields,
+        context: {
+          hutk: document.cookie.match(/hubspotutk=([^;]+)/)?.[1],
+          pageUri: window.location.href,
+          pageName: document.title
+        }
+      })
+    }).catch(()=>{});
+  }catch(e){}
+}
+function showResults(){
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('results').classList.remove('hidden');
+  const score = answers.reduce((a,b)=>a+b,0);
+  const tier = TIERS.find(t => score >= t.min && score <= t.max);
+  document.getElementById('rScore').textContent = score;
+  document.getElementById('rTier').textContent = tier.name;
+  document.getElementById('rTier').style.color = tier.color;
+  document.getElementById('rTierLine').innerHTML = tier.line;
+  const ring = document.getElementById('scoreRing');
+  ring.style.setProperty('--pct', Math.round(score/24*100));
+  ring.style.setProperty('--ringcolor', tier.color);
+  document.getElementById('rDate').textContent = new Date().toLocaleDateString('en-US',{month:'long', day:'numeric', year:'numeric'});
+  const dd = daysToFreeze();
+  document.getElementById('rDays').textContent = dd;
+  if (lead.name){
+    document.getElementById('rFor').innerHTML = 'Prepared for <b>' + esc(lead.name) + '</b> &middot; ' + esc(lead.company);
+  }
+  if (lead.role && ROLE_READS[lead.role]){
+    document.getElementById('rRoleRead').classList.remove('hidden');
+    document.getElementById('rRoleTitle').textContent = ROLE_READS[lead.role].t;
+    document.getElementById('rRoleText').textContent = ROLE_READS[lead.role].x;
+  }
+
+  // dimension bars
+  const dimsBox = document.getElementById('rDims');
+  dimsBox.innerHTML = '';
+  DIMS.forEach((d,i)=>{
+    const row = document.createElement('div'); row.className='dimrow';
+    const fillClass = answers[i] <= 2 ? 'dimfill low' : 'dimfill';
+    row.innerHTML = '<div class="dimlabel">'+d.label+'</div>'+
+      '<div class="dimtrack"><div class="'+fillClass+'" style="width:'+(answers[i]/4*100)+'%"></div>'+
+      '<div class="dimtypical" style="left:'+(TYPICAL[i]/4*100)+'%"></div></div>'+
+      '<div class="dimscore">L'+answers[i]+'</div>';
+    dimsBox.appendChild(row);
+  });
+
+  // two priority moves: lowest scores, tie-broken by PRIORITY order
+  const idx = [0,1,2,3,4,5].sort((a,b)=>
+    (answers[a]-answers[b]) || (PRIORITY.indexOf(a)-PRIORITY.indexOf(b)) );
+  const movesBox = document.getElementById('rMoves');
+  movesBox.innerHTML = '';
+  idx.slice(0,2).forEach(i=>{
+    const m = document.createElement('div'); m.className='move';
+    m.innerHTML = '<h4>'+DIMS[i].label+' &middot; currently L'+answers[i]+'</h4><p>'+DIMS[i].move+'</p>';
+    movesBox.appendChild(m);
+  });
+}
+
+async function copyResult(){
+  const node = document.getElementById('resultCard');
+  try{
+    const canvas = await html2canvas(node, { scale:2, backgroundColor:'#1b1a22', useCORS:true });
+    canvas.toBlob(async (blob)=>{
+      try{
+        await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+        toast('Scorecard copied — paste it into email, chat, or a deck');
+      }catch(e){ downloadBlob(blob); toast('Clipboard blocked by browser — image downloaded instead'); }
+    },'image/png');
+  }catch(e){ toast('Could not render image in this browser'); }
+}
+function downloadBlob(blob){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tezo-fraud-model-readiness-scorecard.png';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function toast(msg){
+  const t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3200);
+}
+function esc(s){ const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+document.getElementById('daysMeta').textContent = daysToFreeze();
+</script>
+</body>
+</html>
