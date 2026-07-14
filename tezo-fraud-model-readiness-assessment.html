@@ -478,10 +478,10 @@ function submitGate(){
   showResults();
 }
 function sendLead(){
-  const fields=[["firstname",lead.name],["email",lead.email],["company",lead.company],
-    ["yourseat",ROLE_CRM_VALUES[lead.role]||""],
-    ["utm_source",UTM.source],["utm_medium",UTM.medium],["utm_campaign",UTM.campaign]]
-    .filter(f=>f[1]).map(f=>({name:f[0],value:f[1]}));
+  const fields=[["firstname",lead.name,"0-1"],["email",lead.email,"0-1"],["company",lead.company,"0-2"],
+    ["yourseat",ROLE_CRM_VALUES[lead.role]||"","0-1"],
+    ["utm_source",UTM.source,"0-1"],["utm_medium",UTM.medium,"0-1"],["utm_campaign",UTM.campaign,"0-1"]]
+    .filter(f=>f[1]).map(f=>({name:f[0],value:f[1],objectTypeId:f[2]}));
 
   try{
     fetch("https://api.hsforms.com/submissions/v3/integration/submit/"+HUBSPOT.portalId+"/"+HUBSPOT.formGuid, {
@@ -495,10 +495,7 @@ function sendLead(){
           pageName: document.title
         }
       })
-    }).then(async r => {
-      const body = await r.text();
-      console.log("HubSpot self-assessment form response:", r.status, body);
-    }).catch(err => console.log("HubSpot self-assessment form fetch failed:", err));
+    }).catch(()=>{});
   }catch(e){}
 }
 function showResults(){
