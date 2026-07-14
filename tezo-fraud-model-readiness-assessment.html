@@ -495,7 +495,10 @@ function sendLead(){
           pageName: document.title
         }
       })
-    }).catch(()=>{});
+    }).then(async r => {
+      const body = await r.text();
+      console.log("HubSpot self-assessment form response:", r.status, body);
+    }).catch(err => console.log("HubSpot self-assessment form fetch failed:", err));
   }catch(e){}
 }
 function showResults(){
