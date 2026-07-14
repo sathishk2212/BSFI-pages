@@ -478,7 +478,7 @@ function submitGate(){
   showResults();
 }
 function sendLead(){
-  const fields=[["firstname",lead.name,"0-1"],["email",lead.email,"0-1"],["company",lead.company,"0-2"],
+  const fields=[["firstname",lead.name,"0-1"],["email",lead.email,"0-1"],["name",lead.company,"0-2"],
     ["yourseat",ROLE_CRM_VALUES[lead.role]||"","0-1"],
     ["utm_source",UTM.source,"0-1"],["utm_medium",UTM.medium,"0-1"],["utm_campaign",UTM.campaign,"0-1"]]
     .filter(f=>f[1]).map(f=>({name:f[0],value:f[1],objectTypeId:f[2]}));
